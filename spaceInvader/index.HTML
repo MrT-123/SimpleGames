@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <!-- The head section contains meta-information about our document -->
+    <meta charset="UTF-8">
+    <!-- UTF-8 is a character encoding that includes almost all characters from all human languages -->
+    
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- This meta tag helps make our game responsive on different devices -->
+    
+    <title>Space Invaders Game for Grade 8</title>
+    <!-- The title appears in the browser tab -->
+    
+    <!-- Link to our CSS file that will style our game -->
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <!-- The body contains all visible content of our game -->
+    
+    <!-- Main container for our game -->
+    <div class="game-container">
+        <!-- Game title and instructions -->
+        <header class="game-header">
+            <h1>Space Invaders</h1>
+            <p class="instructions">Use LEFT and RIGHT arrow keys to move. SPACEBAR to shoot.</p>
+        </header>
+        
+        <!-- This div will hold our actual game canvas -->
+        <div class="game-board">
+            <!-- The canvas element is where we'll draw our game using JavaScript -->
+            <canvas id="gameCanvas" width="600" height="600"></canvas>
+        </div>
+        
+        <!-- Game controls information and score display -->
+        <div class="game-info">
+            <div class="score-container">
+                <p>Score: <span id="score">0</span></p>
+                <p>Lives: <span id="lives">3</span></p>
+            </div>
+            
+            <div class="game-controls">
+                <button id="startButton">Start Game</button>
+                <button id="pauseButton">Pause</button>
+                <button id="resetButton">Reset</button>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Educational section explaining game concepts -->
+    <section class="learning-section">
+        <h2>What You'll Learn Making This Game</h2>
+        <ul>
+            <li>HTML Canvas for game graphics</li>
+            <li>JavaScript for game logic and animation</li>
+            <li>CSS for styling and layout</li>
+            <li>Game programming concepts like collision detection</li>
+            <li>Coordinate systems and movement</li>
+        </ul>
+    </section>
+    
+    <!-- Link to our JavaScript file that will make our game work -->
+    <script src="script.js"></script>
+</body>
+</html>
