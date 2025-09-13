@@ -1,0 +1,136 @@
+/* Basic reset to remove default margins and padding */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    /* Setting up the overall page style */
+    font-family: 'Arial', sans-serif;
+    background-color: #0c0c2a; /* Dark blue background like space */
+    color: white;
+    text-align: center;
+    padding: 20px;
+}
+
+/* Main container for our game */
+.game-container {
+    max-width: 800px;
+    margin: 0 auto;
+    background-color: #1a1a40;
+    border-radius: 10px;
+    padding: 20px;
+    box-shadow: 0 0 20px rgba(0, 255, 255, 0.5); /* Cyan glow effect */
+}
+
+/* Game title and instructions */
+.game-header {
+    margin-bottom: 20px;
+}
+
+h1 {
+    font-size: 2.5rem;
+    color: #00ff00; /* Bright green for retro feel */
+    margin-bottom: 10px;
+    text-transform: uppercase;
+    letter-spacing: 3px;
+}
+
+.instructions {
+    color: #cccccc;
+    margin-bottom: 15px;
+}
+
+/* Game canvas styling */
+.game-board {
+    position: relative;
+    margin: 0 auto;
+    width: 600px;
+    height: 600px;
+}
+
+#gameCanvas {
+    background-color: #000;
+    border: 2px solid #00ff00;
+    border-radius: 5px;
+}
+
+/* Score and controls area */
+.game-info {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 15px 0;
+    margin-top: 10px;
+}
+
+.score-container {
+    font-size: 1.2rem;
+    text-align: left;
+}
+
+#score, #lives {
+    color: #00ff00;
+    font-weight: bold;
+}
+
+/* Game control buttons */
+.game-controls button {
+    background-color: #4a4a8a;
+    color: white;
+    border: none;
+    padding: 8px 15px;
+    margin: 0 5px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 1rem;
+    transition: background-color 0.3s;
+}
+
+.game-controls button:hover {
+    background-color: #00ff00;
+    color: #000;
+}
+
+/* Educational section styling */
+.learning-section {
+    max-width: 800px;
+    margin: 30px auto;
+    background-color: #1a1a40;
+    border-radius: 10px;
+    padding: 20px;
+    text-align: left;
+}
+
+.learning-section h2 {
+    color: #00ff00;
+    margin-bottom: 15px;
+}
+
+.learning-section ul {
+    list-style-position: inside;
+    padding-left: 20px;
+}
+
+.learning-section li {
+    margin-bottom: 8px;
+    color: #cccccc;
+}
+
+/* Make the game responsive for different screen sizes */
+@media (max-width: 650px) {
+    .game-board, #gameCanvas {
+        width: 100%;
+        height: auto;
+    }
+    
+    .game-info {
+        flex-direction: column;
+        gap: 15px;
+    }
+    
+    .score-container {
+        text-align: center;
+    }
+}
