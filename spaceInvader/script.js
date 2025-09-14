@@ -378,11 +378,11 @@ document.addEventListener('DOMContentLoaded', function() {
         if (!gameRunning || gamePaused) return;
         
         // Left arrow key
-        if (event.key === 'ArrowLeft') {
+        if (event.key === 'ArrowLeft' || event.key === 'a' || event.key === 'A') {
             player.move('left');
         }
         // Right arrow key
-        else if (event.key === 'ArrowRight') {
+        else if (event.key === 'ArrowRight' || event.key === 'd' || event.key ==='D') {
             player.move('right');
         }
         // Space bar (shoot)
