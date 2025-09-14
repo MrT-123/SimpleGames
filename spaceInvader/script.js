@@ -13,6 +13,7 @@ document.addEventListener('DOMContentLoaded', function() {
     let lives = 3;
     let gameRunning = false;
     let gamePaused = false;
+    let gameTimer = 0; // Add a timer to track game progress
     
     // Game elements
     let player; // Will store our player ship
@@ -90,7 +91,7 @@ document.addEventListener('DOMContentLoaded', function() {
             this.y = y;
             this.color = '#ff00ff'; // Purple color
             this.direction = 1; // 1 for right, -1 for left
-            this.speed = 1; // How fast aliens move
+            this.speed = 0.5; // Reduced from 1 to 0.5 to make game more playable
         }
         
         // Draw the alien on the canvas
@@ -111,14 +112,23 @@ document.addEventListener('DOMContentLoaded', function() {
         
         // Make alien drop down and change direction
         dropAndReverse() {
-            this.y += 20; // Move down
+            this.y += 15; // Reduced from 20 to 15 to make the drop more gradual
             this.direction *= -1; // Reverse direction
         }
         
         // Sometimes aliens will shoot
         shoot() {
-            // Random chance to shoot (make it challenging but not impossible)
-            if (Math.random() < 0.003 && gameRunning && !gamePaused) {
+            // Only allow shooting after 5 seconds of gameplay
+            if (gameTimer < 300) return; // 60 frames per second * 5 seconds = 300 frames
+            
+            // Random chance to shoot (reduced from 0.003 to make it easier)
+            // And gradually increase difficulty based on game progress
+            let shootingChance = 0.0005 + (gameTimer / 6000) * 0.001; // Gradually increases over time
+            
+            // Cap the maximum shooting chance
+            if (shootingChance > 0.002) shootingChance = 0.002;
+            
+            if (Math.random() < shootingChance && gameRunning && !gamePaused) {
                 const bullet = new Bullet(
                     this.x + this.width / 2,
                     this.y + this.height,
@@ -179,6 +189,7 @@ document.addEventListener('DOMContentLoaded', function() {
         // Reset score and lives
         score = 0;
         lives = 3;
+        gameTimer = 0; // Reset game timer
         updateScoreAndLives();
         
         // Clear existing aliens and bullets
@@ -186,10 +197,11 @@ document.addEventListener('DOMContentLoaded', function() {
         bullets = [];
         
         // Create the alien formation (5 rows, 8 columns)
+        // Starting further left to give more horizontal movement space
         for (let row = 0; row < 5; row++) {
             for (let col = 0; col < 8; col++) {
-                const x = 50 + col * 60;
-                const y = 50 + row * 50;
+                const x = 80 + col * 60; // Adjusted position
+                const y = 50 + row * 40; // Reduced vertical spacing
                 aliens.push(new Alien(x, y));
             }
         }
@@ -208,6 +220,9 @@ document.addEventListener('DOMContentLoaded', function() {
         
         // Only process game logic if game is running and not paused
         if (gameRunning && !gamePaused) {
+            // Increment game timer
+            gameTimer++;
+            
             // Check if all aliens are destroyed (win condition)
             if (aliens.length === 0) {
                 gameWon();
@@ -217,23 +232,33 @@ document.addEventListener('DOMContentLoaded', function() {
             // Move and draw player
             player.draw();
             
-            // Process all aliens
-            let alienHitEdge = false;
+            // First move all aliens, then check for edge collision
             aliens.forEach(alien => {
-                // Check if any alien hits edge of canvas
-                if (alien.x <= 0 || alien.x + alien.width >= canvas.width) {
-                    alienHitEdge = true;
-                }
-                
                 alien.move();
-                alien.draw();
-                alien.shoot();
             });
+            
+            // Now check if any alien is at the edge
+            let alienHitEdge = false;
+            const padding = 10; // Add padding to prevent aliens from going off-screen
+            
+            for (let i = 0; i < aliens.length; i++) {
+                const alien = aliens[i];
+                if (alien.x <= padding || alien.x + alien.width >= canvas.width - padding) {
+                    alienHitEdge = true;
+                    break;
+                }
+            }
             
             // If any alien hit edge, make all aliens drop and reverse
             if (alienHitEdge) {
                 aliens.forEach(alien => alien.dropAndReverse());
             }
+            
+            // Draw aliens and allow them to shoot
+            aliens.forEach(alien => {
+                alien.draw();
+                alien.shoot();
+            });
             
             // Check if aliens reached the bottom (lose condition)
             for (let i = 0; i < aliens.length; i++) {
